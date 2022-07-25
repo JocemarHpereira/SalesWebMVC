@@ -1,10 +1,8 @@
-﻿using System;
-using SalesWebMVC.Models;
-using SalesWebMVC.Data;
+﻿using SalesWebMVC.Data;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using SalesWebMVC.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace SalesWebMVC.Services
 {
@@ -26,13 +24,13 @@ namespace SalesWebMVC.Services
         }
 
         public Seller FindById(int id) {
-            return _context.Seller.FirstOrDefault(obj => obj.Id == id);
+            return _context.Seller.Include(obj => obj.Department).FirstOrDefault(obj => obj.Id == id);
         }
 
         public void Remove(int id) {
             var obj = _context.Seller.Find(id);
             _context.Seller.Remove(obj);
             _context.SaveChanges();
-        }
+        }        
     }
 }
